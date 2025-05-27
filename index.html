@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 10 GCSE Combined Chemistry Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .quiz-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .quiz-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            border-left: 4px solid #4facfe;
+            padding-left: 20px;
+        }
+        
+        .section-title {
+            color: #4facfe;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            transition: transform 0.2s ease;
+        }
+        
+        .question:hover {
+            transform: translateX(5px);
+        }
+        
+        .question-header {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .mcq-options {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .mcq-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mcq-option:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+        
+        .mcq-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        .table-input {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .table-input th, .table-input td {
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .table-input th {
+            background: #4facfe;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .table-input input {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+        }
+        
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+        }
+        
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .results {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .grade {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .grade.grade-6 { background: #28a745; color: white; }
+        .grade.grade-5 { background: #17a2b8; color: white; }
+        .grade.grade-4 { background: #ffc107; color: #333; }
+        .grade.grade-3 { background: #fd7e14; color: white; }
+        .grade.grade-below { background: #dc3545; color: white; }
+        
+        .feedback {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timer {
+                position: relative;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Year 10 GCSE Combined Chemistry Quiz</h1>
+            <div class="quiz-info">
+                <div class="info-item">📚 Target Grade: 4-5</div>
+                <div class="info-item">📝 Total Marks: 67</div>
+                <div class="info-item">⏱️ Time: 60 minutes</div>
+            </div>
+        </div>
+        
+        <div class="timer" id="timer">60:00</div>
+        
+        <div class="quiz-content" id="quizContent">
+            <!-- Section A: Rates of Reaction -->
+            <div class="section">
+                <h2 class="section-title">Section A: Rates of Reaction (18 marks)</h2>
+                
+                <div class="question">
+                    <div class="question-header">Question 1 (Multiple Choice) [4 marks]</div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>a)</strong> Which factor does NOT affect the rate of reaction?
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q1a" value="A"> A) Temperature
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1a" value="B"> B) Concentration
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1a" value="C"> C) Surface area
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1a" value="D"> D) Color of reactants
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>b)</strong> A catalyst increases the rate of reaction by:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q1b" value="A"> A) Increasing the temperature
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1b" value="B"> B) Providing an alternative pathway with lower activation energy
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1b" value="C"> C) Increasing the concentration
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1b" value="D"> D) Breaking chemical bonds
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>c)</strong> Which would increase the rate of reaction between zinc and hydrochloric acid?
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q1c" value="A"> A) Using zinc powder instead of zinc strips
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1c" value="B"> B) Using more dilute acid
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1c" value="C"> C) Cooling the reaction mixture
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1c" value="D"> D) Using less zinc
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong>d)</strong> The rate of reaction can be measured by:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q1d" value="A"> A) Change in mass over time
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1d" value="B"> B) Volume of gas produced over time
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1d" value="C"> C) Change in color over time
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q1d" value="D"> D) All of the above
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 2 [6 marks] - Collision Theory</div>
+                    <strong>a)</strong> State two conditions that must be met for particles to react when they collide [2 marks]:
+                    <textarea class="text-input" name="q2a" rows="3" placeholder="State the two conditions..."></textarea>
+                    
+                    <strong>b)</strong> Explain why increasing temperature increases the rate of reaction [2 marks]:
+                    <textarea class="text-input" name="q2b" rows="3" placeholder="Explain using collision theory..."></textarea>
+                    
+                    <strong>c)</strong> Explain why using a powder instead of lumps increases the rate of reaction [2 marks]:
+                    <textarea class="text-input" name="q2c" rows="3" placeholder="Explain in terms of surface area..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 3 [4 marks] - Catalysts</div>
+                    <strong>a)</strong> Define a catalyst [2 marks]:
+                    <textarea class="text-input" name="q3a" rows="2" placeholder="Enter definition..."></textarea>
+                    
+                    <strong>b)</strong> Give two advantages of using catalysts in industrial processes [2 marks]:
+                    <textarea class="text-input" name="q3b" rows="3" placeholder="List two advantages..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 4 [4 marks] - Rate Calculations</div>
+                    A reaction produces 48 cm³ of gas in 12 seconds.
+                    
+                    <strong>a)</strong> Calculate the rate of reaction in cm³/s. Show your working [2 marks]:
+                    <textarea class="text-input" name="q4a" rows="3" placeholder="Show calculation..."></textarea>
+                    
+                    <strong>b)</strong> If the same reaction produces 60 cm³ of gas in 10 seconds, has the rate increased or decreased? Explain your answer [2 marks]:
+                    <textarea class="text-input" name="q4b" rows="3" placeholder="Calculate and compare..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Section B: Energy Changes -->
+            <div class="section">
+                <h2 class="section-title">Section B: Energy Changes (16 marks)</h2>
+                
+                <div class="question">
+                    <div class="question-header">Question 5 (Multiple Choice) [3 marks]</div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>a)</strong> In an exothermic reaction:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q5a" value="A"> A) Energy is taken in from the surroundings
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5a" value="B"> B) Energy is given out to the surroundings
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5a" value="C"> C) No energy change occurs
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5a" value="D"> D) Energy is destroyed
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>b)</strong> Which is an example of an endothermic reaction?
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q5b" value="A"> A) Combustion of methane
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5b" value="B"> B) Thermal decomposition of calcium carbonate
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5b" value="C"> C) Neutralization
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5b" value="D"> D) Respiration
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong>c)</strong> Activation energy is:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q5c" value="A"> A) Energy given out in a reaction
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5c" value="B"> B) Energy taken in during a reaction
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5c" value="C"> C) Minimum energy needed for particles to react
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q5c" value="D"> D) Energy stored in chemical bonds
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 6 [6 marks] - Energy Level Diagrams</div>
+                    <strong>a)</strong> State the difference between exothermic and endothermic reactions in terms of energy [2 marks]:
+                    <textarea class="text-input" name="q6a" rows="3" placeholder="Compare energy changes..."></textarea>
+                    
+                    <strong>b)</strong> In an energy level diagram, how can you tell if a reaction is exothermic? [2 marks]:
+                    <textarea class="text-input" name="q6b" rows="2" placeholder="Describe the diagram features..."></textarea>
+                    
+                    <strong>c)</strong> Explain what happens to the temperature of the surroundings during an exothermic reaction [2 marks]:
+                    <textarea class="text-input" name="q6c" rows="2" placeholder="Explain temperature change..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 7 [4 marks] - Bond Energy</div>
+                    <strong>a)</strong> What is meant by bond energy? [2 marks]:
+                    <textarea class="text-input" name="q7a" rows="2" placeholder="Define bond energy..."></textarea>
+                    
+                    <strong>b)</strong> In terms of bond breaking and making, explain why combustion reactions are exothermic [2 marks]:
+                    <textarea class="text-input" name="q7b" rows="3" placeholder="Explain using bonds..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 8 [3 marks] - Examples of Energy Changes</div>
+                    Give one example each of:
+                    
+                    <strong>a)</strong> An exothermic reaction [1 mark]:
+                    <input type="text" class="text-input" name="q8a" placeholder="Name an exothermic reaction">
+                    
+                    <strong>b)</strong> An endothermic reaction [1 mark]:
+                    <input type="text" class="text-input" name="q8b" placeholder="Name an endothermic reaction">
+                    
+                    <strong>c)</strong> A use of an exothermic reaction [1 mark]:
+                    <input type="text" class="text-input" name="q8c" placeholder="Name a practical use">
+                </div>
+            </div>
+            
+            <!-- Section C: Equilibria -->
+            <div class="section">
+                <h2 class="section-title">Section C: Equilibria (13 marks)</h2>
+                
+                <div class="question">
+                    <div class="question-header">Question 9 (Multiple Choice) [3 marks]</div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>a)</strong> A reversible reaction reaches equilibrium when:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q9a" value="A"> A) All reactants are used up
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9a" value="B"> B) The forward and reverse reaction rates are equal
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9a" value="C"> C) No more products can be formed
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9a" value="D"> D) The reaction stops
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>b)</strong> Le Chatelier's principle states that if conditions are changed:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q9b" value="A"> A) The equilibrium position stays the same
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9b" value="B"> B) The equilibrium shifts to oppose the change
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9b" value="C"> C) The reaction stops
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9b" value="D"> D) More catalyst is needed
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong>c)</strong> Adding a catalyst to a reaction at equilibrium:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q9c" value="A"> A) Shifts equilibrium to the right
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9c" value="B"> B) Shifts equilibrium to the left
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9c" value="C"> C) Does not change the equilibrium position
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q9c" value="D"> D) Stops the reaction
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 10 [6 marks] - Le Chatelier's Principle</div>
+                    Consider the equilibrium: N₂ + 3H₂ ⇌ 2NH₃ (+ heat)
+                    
+                    <strong>a)</strong> What would happen to the equilibrium position if the temperature is increased? Explain your answer [3 marks]:
+                    <textarea class="text-input" name="q10a" rows="3" placeholder="State direction and explain..."></textarea>
+                    
+                    <strong>b)</strong> What would happen to the equilibrium position if the pressure is increased? Explain your answer [3 marks]:
+                    <textarea class="text-input" name="q10b" rows="3" placeholder="State direction and explain..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 11 [4 marks] - Dynamic Equilibrium</div>
+                    <strong>a)</strong> What is meant by dynamic equilibrium? [2 marks]:
+                    <textarea class="text-input" name="q11a" rows="2" placeholder="Define dynamic equilibrium..."></textarea>
+                    
+                    <strong>b)</strong> State two conditions required for a reaction to reach equilibrium [2 marks]:
+                    <textarea class="text-input" name="q11b" rows="2" placeholder="List two conditions..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Section D: Structure and Bonding -->
+            <div class="section">
+                <h2 class="section-title">Section D: Structure and Bonding (20 marks)</h2>
+                
+                <div class="question">
+                    <div class="question-header">Question 12 (Multiple Choice) [4 marks]</div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>a)</strong> Ionic bonding occurs between:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q12a" value="A"> A) Metal and metal atoms
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12a" value="B"> B) Non-metal and non-metal atoms
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12a" value="C"> C) Metal and non-metal atoms
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12a" value="D"> D) Noble gas atoms
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>b)</strong> Covalent bonding involves:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q12b" value="A"> A) Transfer of electrons
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12b" value="B"> B) Sharing of electrons
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12b" value="C"> C) Loss of electrons
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12b" value="D"> D) Gain of protons
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>c)</strong> Which substance has a giant covalent structure?
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q12c" value="A"> A) Water
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12c" value="B"> B) Diamond
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12c" value="C"> C) Sodium chloride
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12c" value="D"> D) Copper
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong>d)</strong> Metallic bonding is the attraction between:
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="q12d" value="A"> A) Positive ions and negative ions
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12d" value="B"> B) Atoms sharing electrons
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12d" value="C"> C) Positive metal ions and delocalized electrons
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="q12d" value="D"> D) Molecules and atoms
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 13 [8 marks] - Properties and Structure</div>
+                    Complete the table showing the properties of different structures:
+                    <table class="table-input">
+                        <tr>
+                            <th>Structure Type</th>
+                            <th>Electrical Conductivity</th>
+                            <th>Melting Point</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>Ionic compound</td>
+                            <td><input type="text" name="q13_ionic_conduct" placeholder="Conducts when..."></td>
+                            <td><input type="text" name="q13_ionic_mp" placeholder="High/Low"></td>
+                            <td><input type="text" name="q13_ionic_example" placeholder="Example"></td>
+                        </tr>
+                        <tr>
+                            <td>Simple covalent</td>
+                            <td><input type="text" name="q13_simple_conduct" placeholder="Conduct?"></td>
+                            <td><input type="text" name="q13_simple_mp" placeholder="High/Low"></td>
+                            <td><input type="text" name="q13_simple_example" placeholder="Example"></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 14 [4 marks] - Ionic Bonding</div>
+                    <strong>a)</strong> Describe how ionic bonds are formed [2 marks]:
+                    <textarea class="text-input" name="q14a" rows="3" placeholder="Describe electron transfer..."></textarea>
+                    
+                    <strong>b)</strong> Explain why ionic compounds have high melting points [2 marks]:
+                    <textarea class="text-input" name="q14b" rows="2" placeholder="Explain in terms of forces..."></textarea>
+                </div>
+                
+                <div class="question">
+                    <div class="question-header">Question 15 [4 marks] - Covalent Bonding</div>
+                    <strong>a)</strong> Explain why diamond is very hard [2 marks]:
+                    <textarea class="text-input" name="q15a" rows="2" placeholder="Explain structure and bonding..."></textarea>
+                    
+                    <strong>b)</strong> Explain why simple covalent compounds have low boiling points [2 marks]:
+                    <textarea class="text-input" name="q15b" rows="2" placeholder="Explain intermolecular forces..."></textarea>
+                </div>
+            </div>
+            
+            <div class="submit-container">
+                <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">Submit Quiz</button>
+                <p style="color: white; margin-top: 15px;">Make sure you've answered all questions before submitting!</p>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <h2 style="text-align: center; color: #4facfe; margin-bottom: 30px;">Quiz Results</h2>
+            <div class="grade" id="gradeDisplay"></div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3>Score: <span id="scoreDisplay"></span>/67 marks</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p><strong>Percentage: <span id="percentageDisplay"></span>%</strong></p>
+            </div>
+            <div class="feedback" id="feedbackDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 3600; // 60 minutes in seconds
+        let timerInterval;
+        
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                    alert("Time's up! Quiz submitted automatically.");
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+            if (timeLeft <= 300) {
+                document.getElementById('timer').style.background = '#ff4757';
+            } else if (timeLeft <= 600) {
+                document.getElementById('timer').style.background = '#ffa502';
+            }
+        }
+        
+        // Answer key with mark scheme language
+        const answers = {
+            // Section A - Rates
+            q1a: 'D', q1b: 'B', q1c: 'A', q1d: 'D',
+            q4a: '4', // 48/12 = 4 cm³/s
+            // Section B - Energy
+            q5a: 'B', q5b: 'B', q5c: 'C',
+            // Section C - Equilibria  
+            q9a: 'B', q9b: 'B', q9c: 'C',
+            // Section D - Bonding
+            q12a: 'C', q12b: 'B', q12c: 'B', q12d: 'C',
+            q13_ionic_conduct: ['molten', 'dissolved', 'liquid', 'solution'],
+            q13_ionic_mp: ['high'],
+            q13_simple_conduct: ['no', 'does not', 'poor', 'insulator'],
+            q13_simple_mp: ['low']
+        };
+        
+        // Mark scheme criteria for text answers
+        const markSchemeCriteria = {
+            q2a: {
+                fullMarks: ['sufficient energy', 'activation energy', 'correct orientation', 'collision geometry'],
+                partialMarks: ['energy', 'collision', 'orientation', 'geometry']
+            },
+            q2b: {
+                fullMarks: ['particles move faster', 'more frequent collisions', 'more energetic collisions', 'kinetic energy increases'],
+                partialMarks: ['faster', 'more collisions', 'energy increases', 'temperature']
+            },
+            q2c: {
+                fullMarks: ['larger surface area', 'more particles exposed', 'more frequent collisions'],
+                partialMarks: ['surface area', 'more collisions', 'exposed']
+            },
+            q3a: {
+                fullMarks: ['speeds up reaction', 'lowers activation energy', 'not used up', 'remains unchanged'],
+                partialMarks: ['speeds up', 'not consumed', 'catalyst']
+            },
+            q3b: {
+                fullMarks: ['lower temperature needed', 'saves energy', 'faster reaction', 'economic benefits'],
+                partialMarks: ['saves energy', 'faster', 'cheaper', 'efficient']
+            },
+            q6a: {
+                fullMarks: ['exothermic gives out energy', 'endothermic takes in energy', 'surroundings'],
+                partialMarks: ['gives out', 'takes in', 'energy transfer']
+            },
+            q6b: {
+                fullMarks: ['products lower than reactants', 'energy level decreases', 'downward arrow'],
+                partialMarks: ['products lower', 'energy decreases', 'diagram']
+            },
+            q6c: {
+                fullMarks: ['temperature increases', 'surroundings get warmer', 'heat given out'],
+                partialMarks: ['warmer', 'heat out', 'temperature']
+            },
+            q7a: {
+                fullMarks: ['energy needed to break bonds', 'energy to break one mole of bonds'],
+                partialMarks: ['break bonds', 'energy', 'bonds']
+            },
+            q7b: {
+                fullMarks: ['energy released making bonds', 'greater than energy needed', 'net energy released'],
+                partialMarks: ['making bonds', 'energy released', 'bonds']
+            },
+            q10a: {
+                fullMarks: ['equilibrium shifts left', 'opposes temperature increase', 'endothermic direction'],
+                partialMarks: ['shifts left', 'opposes', 'backward']
+            },
+            q10b: {
+                fullMarks: ['equilibrium shifts right', 'fewer gas molecules', 'reduces pressure'],
+                partialMarks: ['shifts right', 'fewer molecules', 'pressure']
+            },
+            q11a: {
+                fullMarks: ['forward and reverse rates equal', 'reactions still occurring', 'concentrations constant'],
+                partialMarks: ['rates equal', 'still reacting', 'constant']
+            },
+            q11b: {
+                fullMarks: ['closed system', 'constant temperature', 'reversible reaction'],
+                partialMarks: ['closed', 'constant conditions', 'reversible']
+            },
+            q14a: {
+                fullMarks: ['metal loses electrons', 'non-metal gains electrons', 'electrostatic attraction'],
+                partialMarks: ['electron transfer', 'loses electrons', 'gains electrons']
+            },
+            q14b: {
+                fullMarks: ['strong electrostatic forces', 'between ions', 'lot of energy needed'],
+                partialMarks: ['strong forces', 'electrostatic', 'energy needed']
+            },
+            q15a: {
+                fullMarks: ['each carbon bonded to four others', 'strong covalent bonds', 'giant structure'],
+                partialMarks: ['four bonds', 'strong bonds', 'covalent']
+            },
+            q15b: {
+                fullMarks: ['weak intermolecular forces', 'between molecules', 'little energy needed'],
+                partialMarks: ['weak forces', 'between molecules', 'intermolecular']
+            }
+        };
+        
+        function checkAnswer(questionName, userAnswer) {
+            const correctAnswer = answers[questionName];
+            
+            if (!correctAnswer) return 0;
+            
+            if (Array.isArray(correctAnswer)) {
+                return correctAnswer.some(answer => 
+                    userAnswer.toLowerCase().includes(answer.toLowerCase())
+                ) ? 1 : 0;
+            }
+            
+            if (typeof correctAnswer === 'string') {
+                return userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase() ? 1 : 0;
+            }
+            
+            return 0;
+        }
+        
+        function checkTextAnswer(questionName, userAnswer, marks) {
+            const criteria = markSchemeCriteria[questionName];
+            if (!criteria || !userAnswer) return 0;
+            
+            const answer = userAnswer.toLowerCase().trim();
+            let score = 0;
+            
+            const fullMatches = criteria.fullMarks.filter(phrase => 
+                answer.includes(phrase.toLowerCase())
+            ).length;
+            
+            const partialMatches = criteria.partialMarks.filter(phrase => 
+                answer.includes(phrase.toLowerCase())
+            ).length;
+            
+            if (fullMatches >= 2) {
+                score = marks;
+            } else if (fullMatches >= 1) {
+                score = Math.max(marks - 1, Math.ceil(marks * 0.6));
+            } else if (partialMatches >= 2) {
+                score = Math.ceil(marks * 0.5);
+            } else if (partialMatches >= 1) {
+                score = 1;
+            }
+            
+            return Math.min(score, marks);
+        }
+        
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            
+            let totalScore = 0;
+            const formData = new FormData();
+            
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.name) {
+                    formData.append(input.name, input.value);
+                }
+            });
+            
+            let sectionScores = {
+                A: 0, B: 0, C: 0, D: 0
+            };
+            
+            // Section A scoring (18 marks)
+            sectionScores.A += checkAnswer('q1a', formData.get('q1a')) * 1;
+            sectionScores.A += checkAnswer('q1b', formData.get('q1b')) * 1;
+            sectionScores.A += checkAnswer('q1c', formData.get('q1c')) * 1;
+            sectionScores.A += checkAnswer('q1d', formData.get('q1d')) * 1;
+            sectionScores.A += checkTextAnswer('q2a', formData.get('q2a'), 2);
+            sectionScores.A += checkTextAnswer('q2b', formData.get('q2b'), 2);
+            sectionScores.A += checkTextAnswer('q2c', formData.get('q2c'), 2);
+            sectionScores.A += checkTextAnswer('q3a', formData.get('q3a'), 2);
+            sectionScores.A += checkTextAnswer('q3b', formData.get('q3b'), 2);
+            sectionScores.A += checkAnswer('q4a', formData.get('q4a')) * 2;
+            
+            // Q4b rate comparison
+            const q4b = formData.get('q4b') || '';
+            if (q4b.includes('6') && (q4b.toLowerCase().includes('increased') || q4b.toLowerCase().includes('faster'))) {
+                sectionScores.A += 2;
+            } else if (q4b.includes('6') || q4b.toLowerCase().includes('increased')) {
+                sectionScores.A += 1;
+            }
+            
+            // Section B scoring (16 marks)
+            sectionScores.B += checkAnswer('q5a', formData.get('q5a')) * 1;
+            sectionScores.B += checkAnswer('q5b', formData.get('q5b')) * 1;
+            sectionScores.B += checkAnswer('q5c', formData.get('q5c')) * 1;
+            sectionScores.B += checkTextAnswer('q6a', formData.get('q6a'), 2);
+            sectionScores.B += checkTextAnswer('q6b', formData.get('q6b'), 2);
+            sectionScores.B += checkTextAnswer('q6c', formData.get('q6c'), 2);
+            sectionScores.B += checkTextAnswer('q7a', formData.get('q7a'), 2);
+            sectionScores.B += checkTextAnswer('q7b', formData.get('q7b'), 2);
+            
+            // Examples - accept common answers
+            const q8a = formData.get('q8a') || '';
+            if (q8a.toLowerCase().includes('combustion') || q8a.toLowerCase().includes('burning') || 
+                q8a.toLowerCase().includes('neutralization') || q8a.toLowerCase().includes('respiration')) {
+                sectionScores.B += 1;
+            }
+            
+            const q8b = formData.get('q8b') || '';
+            if (q8b.toLowerCase().includes('thermal decomposition') || q8b.toLowerCase().includes('photosynthesis') || 
+                q8b.toLowerCase().includes('melting') || q8b.toLowerCase().includes('evaporation')) {
+                sectionScores.B += 1;
+            }
+            
+            const q8c = formData.get('q8c') || '';
+            if (q8c.toLowerCase().includes('heating') || q8c.toLowerCase().includes('hand warmer') || 
+                q8c.toLowerCase().includes('fuel') || q8c.toLowerCase().includes('cooking')) {
+                sectionScores.B += 1;
+            }
+            
+            // Section C scoring (13 marks)
+            sectionScores.C += checkAnswer('q9a', formData.get('q9a')) * 1;
+            sectionScores.C += checkAnswer('q9b', formData.get('q9b')) * 1;
+            sectionScores.C += checkAnswer('q9c', formData.get('q9c')) * 1;
+            sectionScores.C += checkTextAnswer('q10a', formData.get('q10a'), 3);
+            sectionScores.C += checkTextAnswer('q10b', formData.get('q10b'), 3);
+            sectionScores.C += checkTextAnswer('q11a', formData.get('q11a'), 2);
+            sectionScores.C += checkTextAnswer('q11b', formData.get('q11b'), 2);
+            
+            // Section D scoring (20 marks)
+            sectionScores.D += checkAnswer('q12a', formData.get('q12a')) * 1;
+            sectionScores.D += checkAnswer('q12b', formData.get('q12b')) * 1;
+            sectionScores.D += checkAnswer('q12c', formData.get('q12c')) * 1;
+            sectionScores.D += checkAnswer('q12d', formData.get('q12d')) * 1;
+            
+            // Table marking
+            sectionScores.D += checkAnswer('q13_ionic_conduct', formData.get('q13_ionic_conduct')) * 2;
+            sectionScores.D += checkAnswer('q13_ionic_mp', formData.get('q13_ionic_mp')) * 1;
+            sectionScores.D += checkAnswer('q13_simple_conduct', formData.get('q13_simple_conduct')) * 2;
+            sectionScores.D += checkAnswer('q13_simple_mp', formData.get('q13_simple_mp')) * 1;
+            
+            // Examples
+            const q13_ionic_example = formData.get('q13_ionic_example') || '';
+            if (q13_ionic_example.toLowerCase().includes('sodium chloride') || q13_ionic_example.toLowerCase().includes('nacl') ||
+                q13_ionic_example.toLowerCase().includes('calcium chloride') || q13_ionic_example.toLowerCase().includes('salt')) {
+                sectionScores.D += 1;
+            }
+            
+            const q13_simple_example = formData.get('q13_simple_example') || '';
+            if (q13_simple_example.toLowerCase().includes('water') || q13_simple_example.toLowerCase().includes('methane') ||
+                q13_simple_example.toLowerCase().includes('carbon dioxide') || q13_simple_example.toLowerCase().includes('h2o')) {
+                sectionScores.D += 1;
+            }
+            
+            sectionScores.D += checkTextAnswer('q14a', formData.get('q14a'), 2);
+            sectionScores.D += checkTextAnswer('q14b', formData.get('q14b'), 2);
+            sectionScores.D += checkTextAnswer('q15a', formData.get('q15a'), 2);
+            sectionScores.D += checkTextAnswer('q15b', formData.get('q15b'), 2);
+            
+            totalScore = Object.values(sectionScores).reduce((a, b) => a + b, 0);
+            
+            displayResults(totalScore, sectionScores);
+        }
+        
+        function displayResults(totalScore, sectionScores) {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            const percentage = Math.round((totalScore / 67) * 100);
+            let grade, gradeClass, feedback;
+            
+            if (percentage >= 80) {
+                grade = "Grade 6+";
+                gradeClass = "grade-6";
+                feedback = "🌟 Outstanding work! You should feel incredibly proud of yourself - this is exceptional chemistry knowledge! You've clearly put in fantastic effort and it really shows. You're absolutely ready for A-Level chemistry and should feel confident about your abilities. Keep up this brilliant work!";
+            } else if (percentage >= 65) {
+                grade = "Grade 6";
+                gradeClass = "grade-6";
+                feedback = "🎉 Excellent achievement! You've done brilliantly and should feel really confident about your chemistry skills. This is a fantastic result that shows you understand these complex concepts well. You're doing great - believe in yourself!";
+            } else if (percentage >= 51) {
+                grade = "Grade 5";
+                gradeClass = "grade-5";
+                feedback = "✨ Well done - you've hit your target grade! This is a really good result and you should feel proud of your progress. You clearly understand the key chemistry concepts in rates, energy, equilibria and bonding. With a bit more practice on the areas you found tricky, you'll continue to improve. Great effort!";
+            } else if (percentage >= 40) {
+                grade = "Grade 4";
+                gradeClass = "grade-4";
+                feedback = "👏 Good work! You've achieved Grade 4 which shows you have a solid foundation in these challenging chemistry topics. Don't worry about the questions you found difficult - rates, energy changes, equilibria and bonding are some of the trickiest areas in chemistry! Focus on building your confidence with the topics you know well, and gradually work on the more complex areas. You're making good progress!";
+            } else if (percentage >= 30) {
+                grade = "Grade 3";
+                gradeClass = "grade-3";
+                feedback = "💪 You're doing well and making real progress! Every question you got right shows you're learning these challenging chemistry concepts. Don't be discouraged - these topics (rates, energy, equilibria, bonding) are some of the hardest parts of GCSE chemistry. The important thing is that you're trying and improving. Focus on the basics, ask for help when you need it, and celebrate the progress you're making!";
+            } else {
+                grade = "Working Towards Grade 3";
+                gradeClass = "grade-below";
+                feedback = "🌱 Remember, everyone starts somewhere and you're on your learning journey! The fact that you completed this challenging quiz shows determination and that's something to be proud of. These chemistry topics are genuinely difficult and take time to understand. Start with the fundamentals, don't hesitate to ask your teacher for support, and remember that every small step forward is progress. You can do this!";
+            }
+            
+            document.getElementById('gradeDisplay').textContent = grade;
+            document.getElementById('gradeDisplay').className = `grade ${gradeClass}`;
+            document.getElementById('scoreDisplay').textContent = Math.round(totalScore);
+            document.getElementById('percentageDisplay').textContent = percentage;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            // Detailed feedback with specific study advice
+            let detailedFeedback = `<h4>🎯 Your Achievement:</h4><p>${feedback}</p><br>`;
+            
+            let strengths = [];
+            let improvements = [];
+            
+            if (sectionScores.A >= 14) strengths.push("You've got a solid grasp of rates of reaction! 🚀");
+            else if (sectionScores.A >= 9) improvements.push("You're making progress with rates of reaction! Create a summary sheet showing all the factors that affect reaction rates and how collision theory explains each one.");
+            else improvements.push("Focus on rates of reaction fundamentals. Make flashcards for the key factors (temperature, concentration, surface area, catalyst) and create a mindmap showing how collision theory connects everything together.");
+            
+            if (sectionScores.B >= 12) strengths.push("Great work on energy changes - you understand exothermic and endothermic reactions! ⚡");
+            else if (sectionScores.B >= 8) improvements.push("Good understanding of energy changes developing! Create a summary sheet with energy level diagrams for both exothermic and endothermic reactions, and practice drawing them.");
+            else improvements.push("Start with the basics of energy changes. Make flashcards for key terms (exothermic, endothermic, activation energy) and create a visual summary sheet showing energy level diagrams.");
+            
+            if (sectionScores.C >= 10) strengths.push("Excellent understanding of equilibria and Le Chatelier's principle! ⚖️");
+            else if (sectionScores.C >= 7) improvements.push("You're getting the hang of equilibria! Create a mindmap showing how temperature, pressure, and concentration changes affect equilibrium position - visual connections really help here.");
+            else improvements.push("Equilibria can be tricky - don't worry! Create a summary sheet explaining dynamic equilibrium and Le Chatelier's principle with simple examples. Focus on understanding the concept before memorizing effects.");
+            
+            if (sectionScores.D >= 15) strengths.push("Outstanding knowledge of structure and bonding - you really understand how structure affects properties! 🔗");
+            else if (sectionScores.D >= 10) improvements.push("Good progress with bonding concepts! Create a mindmap linking the three types of bonding (ionic, covalent, metallic) to their properties - seeing the connections helps a lot.");
+            else improvements.push("Structure and bonding links everything together in chemistry. Make flashcards for the three bond types, then create a detailed summary sheet showing how each structure leads to different properties.");
+            
+            detailedFeedback += `<h4>🌟 What You Did Well:</h4>`;
+            if (strengths.length > 0) {
+                strengths.forEach(strength => {
+                    detailedFeedback += `<p>• ${strength}</p>`;
+                });
+            } else {
+                detailedFeedback += `<p>• You tackled some of the most challenging topics in GCSE chemistry - that takes courage! 💪</p>`;
+                detailedFeedback += `<p>• You completed the entire quiz - that shows real determination and commitment to learning! 🎯</p>`;
+            }
+            
+            if (improvements.length > 0) {
+                detailedFeedback += `<br><h4>🚀 Areas to Focus On (You've Got This!):</h4>`;
+                improvements.forEach(improvement => {
+                    detailedFeedback += `<p>• ${improvement}</p>`;
+                });
+            }
+            
+            detailedFeedback += `<br><h4>📈 Your Score Breakdown:</h4>`;
+            detailedFeedback += `<p><strong>Section A (Rates of Reaction):</strong> ${Math.round(sectionScores.A)}/18 marks</p>`;
+            detailedFeedback += `<p><strong>Section B (Energy Changes):</strong> ${Math.round(sectionScores.B)}/16 marks</p>`;
+            detailedFeedback += `<p><strong>Section C (Equilibria):</strong> ${Math.round(sectionScores.C)}/13 marks</p>`;
+            detailedFeedback += `<p><strong>Section D (Structure and Bonding):</strong> ${Math.round(sectionScores.D)}/20 marks</p>`;
+            
+            detailedFeedback += `<br><div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                <h4>💡 Remember: These Are Challenging Topics!</h4>
+                <p>Rates, energy changes, equilibria and bonding are some of the most complex areas in GCSE chemistry. The fact that you're working on them shows you're progressing well through the course. Take your time, use visual aids, and don't hesitate to ask for help. You're building towards advanced chemistry skills! 🌟</p>
+            </div>`;
+            
+            document.getElementById('feedbackDisplay').innerHTML = detailedFeedback;
+        }
+        
+        // Start timer when page loads
+        window.onload = function() {
+            startTimer();
+        };
+        
+        // Prevent accidental page refresh
+        window.addEventListener('beforeunload', function (e) {
+            if (document.getElementById('results').style.display !== 'block') {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+</body>
+</html>
